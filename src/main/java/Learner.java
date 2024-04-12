@@ -1,26 +1,26 @@
 package SwimmingSchool;
 
 class Learner {
-    private static int nextId = 1000;
-	    private int id;
+	private static int nextId = 1000;
+	private int id;
 	private String name;
-    private String gender;
-    private int age;
-    private String emergencyContact;
-    private int gradeLevel;
+	private String gender;
+	private int age;
+	private String emergencyContact;
+	private int gradeLevel;
 
-    public Learner(String name, String gender, int age, String emergencyContact, int gradeLevel) {
-        this.id = ++nextId;
-    	this.setName(name);
-        this.setGender(gender);
-        this.setAge(age);
-        this.setEmergencyContact(emergencyContact);
-        this.setGradeLevel(gradeLevel);
-    }
+	public Learner(String name, String gender, int age, String emergencyContact, int gradeLevel) {
+		this.id = ++nextId;
+		this.setName(name);
+		this.setGender(gender);
+		this.setAge(age);
+		this.setEmergencyContact(emergencyContact);
+		this.setGradeLevel(gradeLevel);
+	}
 
-    public int getId() {
-        return id;
-    }
+	public int getId() {
+		return id;
+	}
 
 	public String getName() {
 		return name;
@@ -62,7 +62,4 @@ class Learner {
 		this.gradeLevel = gradeLevel;
 	}
 
-	
-
-   
 }
