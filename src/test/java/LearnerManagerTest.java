@@ -15,15 +15,12 @@ class LearnerManagerTest {
         LearnerManager learnerManager = new LearnerManager();
         List<Learner> learners = new ArrayList<>();
 
-        // Prepare input for test
         String input = "John\nMale\n10\n123456789\n3\n";
         InputStream inputStream = new ByteArrayInputStream(input.getBytes());
         System.setIn(inputStream);
 
-        // Execute the method
         learnerManager.registerLearner(learners);
 
-        // Validate if the learner is registered
         assertEquals(1, learners.size());
         Learner learner = learners.get(0);
         assertEquals("John", learner.getName());
