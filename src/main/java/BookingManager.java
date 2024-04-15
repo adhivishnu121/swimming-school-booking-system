@@ -43,7 +43,7 @@ public class BookingManager {
             bookings.add(new Booking(learners.get(0), nextSaturday.toString(), "15:00", coaches.get(1), 3, generateLessonId()));
         }
 	}
-	private List<Learner> getSampleLearners() {
+	public List<Learner> getSampleLearners() {
 		List<Learner> learners = new ArrayList<>();
 		learners.add(new Learner("lrn1", "Male", 10, "123-456-7890", 3));
 		learners.add(new Learner("lrn2", "Female", 8, "234-567-8901", 2));
@@ -58,7 +58,7 @@ public class BookingManager {
 		return learners;
 	}
 
-	private List<Coach> getSampleCoaches() {
+	public List<Coach> getSampleCoaches() {
 		List<Coach> coaches = new ArrayList<>();
 		coaches.add(new Coach("Coach1"));
 		coaches.add(new Coach("Coach2"));
@@ -67,124 +67,124 @@ public class BookingManager {
 	}
 
 	public void bookLesson(List<Learner> learners, List<Coach> coaches) {
-		Scanner scanner = new Scanner(System.in);
-		System.out.println("Select the way to view the timetable:");
-		System.out.println("1. View by day");
-		System.out.println("2. View by grade level");
-		System.out.println("3. View by coach's name");
-		System.out.print("Enter your choice: ");
-		int choice = scanner.nextInt();
-		scanner.nextLine(); 
+		try (Scanner scanner = new Scanner(System.in)) {
+			System.out.println("Select the way to view the timetable:");
+			System.out.println("1. View by day");
+			System.out.println("2. View by grade level");
+			System.out.println("3. View by coach's name");
+			System.out.print("Enter your choice: ");
+			int choice = scanner.nextInt();
+			scanner.nextLine(); 
 
-		switch (choice) {
-		case 1:
-			System.out.print("Enter the day (Monday, Wednesday, Friday, Saturday): ");
-			String dayInput = scanner.nextLine();
-			DayOfWeek day = DayOfWeek.valueOf(dayInput.toUpperCase());
-			viewTimetableByDay(day, bookings);
-			createBooking(learners, coaches);
-			break;
-		case 2:
-			System.out.print("Enter the grade level (1, 2, 3, 4, 5): ");
-			int gradeLevel = scanner.nextInt();
-			viewTimetableByGrade(gradeLevel, bookings);
-			createBooking(learners, coaches);
+			switch (choice) {
+			case 1:
+				System.out.print("Enter the day (Monday, Wednesday, Friday, Saturday): ");
+				String dayInput = scanner.nextLine();
+				DayOfWeek day = DayOfWeek.valueOf(dayInput.toUpperCase());
+				viewTimetableByDay(day, bookings);
+				createBooking(learners, coaches);
+				break;
+			case 2:
+				System.out.print("Enter the grade level (1, 2, 3, 4, 5): ");
+				int gradeLevel = scanner.nextInt();
+				viewTimetableByGrade(gradeLevel, bookings);
+				createBooking(learners, coaches);
 
-			break;
-		case 3:
-			System.out.print("Enter the coach's name: ");
-			String coachName = scanner.nextLine();
-			viewTimetableByCoach(coachName, bookings);
-			createBooking(learners, coaches);
+				break;
+			case 3:
+				System.out.print("Enter the coach's name: ");
+				String coachName = scanner.nextLine();
+				viewTimetableByCoach(coachName, bookings);
+				createBooking(learners, coaches);
 
-			break;
-		default:
-			System.out.println("Invalid choice.");
-			return;
+				break;
+			default:
+				System.out.println("Invalid choice.");
+				return;
+			}
 		}
-
+		
 	}
 
 	public void createBooking(List<Learner> learners, List<Coach> coaches) {
-		Scanner scanner = new Scanner(System.in);
+		try (Scanner scanner = new Scanner(System.in)) {
+			System.out.print("Enter your name: ");
+			String learnerName = scanner.nextLine().trim();
+			System.out.print("Enter your ID: ");
+			int learnerId = scanner.nextInt();
+			scanner.nextLine(); // Consume newline
 
-		System.out.print("Enter your name: ");
-		String learnerName = scanner.nextLine().trim();
-		System.out.print("Enter your ID: ");
-		int learnerId = scanner.nextInt();
-		scanner.nextLine(); // Consume newline
-
-		Learner learner = null;
-		for (Learner l : learners) {
-			
-			if (l.getName().equalsIgnoreCase(learnerName) && l.getId() == learnerId) {
-				learner = l;
-				break;
+			Learner learner = null;
+			for (Learner l : learners) {
+				
+				if (l.getName().equalsIgnoreCase(learnerName) && l.getId() == learnerId) {
+					learner = l;
+					break;
+				}
 			}
-		}
 
-		if (learner == null) {
-			System.out.println("Invalid learner name . Booking unsuccessful.");
-			return;
-		}
-
-		System.out.print("Enter lesson date (YYYY-MM-DD): ");
-		String lessonDate = scanner.nextLine();
-		LocalDate date = LocalDate.parse(lessonDate);
-		DayOfWeek dayOfWeek = date.getDayOfWeek();
-
-		System.out.print("Enter lesson time (HH:MM): ");
-		String lessonTime = scanner.nextLine();
-		LocalTime time = LocalTime.parse(lessonTime);
-
-		if (dayOfWeek == DayOfWeek.MONDAY || dayOfWeek == DayOfWeek.WEDNESDAY || dayOfWeek == DayOfWeek.FRIDAY) {
-			if (!(time.equals(LocalTime.of(16, 0)) || time.equals(LocalTime.of(17, 0))
-					|| time.equals(LocalTime.of(18, 0)))) {
-				System.out.println("Sorry, the time slot doesn't exist for the selected day.");
+			if (learner == null) {
+				System.out.println("Invalid learner name . Booking unsuccessful.");
 				return;
 			}
-		} else if (dayOfWeek == DayOfWeek.SATURDAY) {
-			if (!(time.equals(LocalTime.of(14, 0)) || time.equals(LocalTime.of(15, 0)))) {
-				System.out.println("Sorry, the time slot doesn't exist for the selected day.");
+
+			System.out.print("Enter lesson date (YYYY-MM-DD): ");
+			String lessonDate = scanner.nextLine();
+			LocalDate date = LocalDate.parse(lessonDate);
+			DayOfWeek dayOfWeek = date.getDayOfWeek();
+
+			System.out.print("Enter lesson time (HH:MM): ");
+			String lessonTime = scanner.nextLine();
+			LocalTime time = LocalTime.parse(lessonTime);
+
+			if (dayOfWeek == DayOfWeek.MONDAY || dayOfWeek == DayOfWeek.WEDNESDAY || dayOfWeek == DayOfWeek.FRIDAY) {
+				if (!(time.equals(LocalTime.of(16, 0)) || time.equals(LocalTime.of(17, 0))
+						|| time.equals(LocalTime.of(18, 0)))) {
+					System.out.println("Sorry, the time slot doesn't exist for the selected day.");
+					return;
+				}
+			} else if (dayOfWeek == DayOfWeek.SATURDAY) {
+				if (!(time.equals(LocalTime.of(14, 0)) || time.equals(LocalTime.of(15, 0)))) {
+					System.out.println("Sorry, the time slot doesn't exist for the selected day.");
+					return;
+				}
+			} else {
+				System.out.println("INVALID DAY OF THE WEEK.");
 				return;
 			}
-		} else {
-			System.out.println("INVALID DAY OF THE WEEK.");
-			return;
+
+			int bookingsForTimeSlot = countBookingsForTimeSlot(lessonDate, lessonTime);
+			if (bookingsForTimeSlot >= 4) {
+				System.out.println("Sorry, the time slot is already full. Cannot create a booking.");
+				return;
+			}
+			System.out.print("Enter coach's name: ");
+			String coachName = scanner.nextLine();
+			Coach coach = findCoachByName(coaches, coachName);
+			if (coach == null) {
+				System.out.println("Coach not found.");
+				return;
+			}
+
+			int minGradeLevel = Math.max(learner.getGradeLevel(), 0);
+			int maxGradeLevel = Math.min(learner.getGradeLevel() + 1, 5); // Grade 1 learners can book Grade 1 or Grade 2
+
+			System.out.print("Enter grade level: ");
+			int gradeLevel = scanner.nextInt();
+			scanner.nextLine();
+
+			if (!(gradeLevel == minGradeLevel || gradeLevel == maxGradeLevel)) {
+				System.out.println("Grade " + learner.getGradeLevel() + " learners can only book Grade " + minGradeLevel
+						+ " or Grade " + maxGradeLevel + " lessons.");
+				return;
+			}
+			int lessonId = generateLessonId(); 
+			Booking newBooking = new Booking(learner, lessonDate, lessonTime, coach, gradeLevel, lessonId);
+
+			bookings.add(newBooking);
 		}
-
-		int bookingsForTimeSlot = countBookingsForTimeSlot(lessonDate, lessonTime);
-		if (bookingsForTimeSlot >= 4) {
-			System.out.println("Sorry, the time slot is already full. Cannot create a booking.");
-			return;
-		}
-		System.out.print("Enter coach's name: ");
-		String coachName = scanner.nextLine();
-		Coach coach = findCoachByName(coaches, coachName);
-		if (coach == null) {
-			System.out.println("Coach not found.");
-			return;
-		}
-
-		int minGradeLevel = Math.max(learner.getGradeLevel(), 1);
-		int maxGradeLevel = Math.min(learner.getGradeLevel() + 1, 5); // Grade 1 learners can book Grade 1 or Grade 2
-
-		System.out.print("Enter grade level: ");
-		int gradeLevel = scanner.nextInt();
-		scanner.nextLine();
-
-		if (!(gradeLevel == minGradeLevel || gradeLevel == maxGradeLevel)) {
-			System.out.println("Grade " + learner.getGradeLevel() + " learners can only book Grade " + minGradeLevel
-					+ " or Grade " + maxGradeLevel + " lessons.");
-			return;
-		}
-		int lessonId = generateLessonId(); 
-		Booking newBooking = new Booking(learner, lessonDate, lessonTime, coach, gradeLevel, lessonId);
-
-		bookings.add(newBooking);
 
 		System.out.println("Booking created successfully.");
-		displayTimetable(bookings);
 	}
 
 	private int countBookingsForTimeSlot(String lessonDate, String lessonTime) {
@@ -301,102 +301,104 @@ public class BookingManager {
 	}
 
 	public void attendLesson() {
-		Scanner scanner = new Scanner(System.in);
-		System.out.println("\nAttend a swimming lesson:");
-		System.out.print("Enter learner's name: ");
-		String learnerName = scanner.nextLine();
-		System.out.print("Enter lesson date (YYYY-MM-DD): ");
-		String lessonDate = scanner.nextLine();
-		System.out.print("Enter lesson time (HH:MM): ");
-		String lessonTime = scanner.nextLine();
+		try (Scanner scanner = new Scanner(System.in)) {
+			System.out.println("\nAttend a swimming lesson:");
+			System.out.print("Enter learner's name: ");
+			String learnerName = scanner.nextLine();
+			System.out.print("Enter lesson date (YYYY-MM-DD): ");
+			String lessonDate = scanner.nextLine();
+			System.out.print("Enter lesson time (HH:MM): ");
+			String lessonTime = scanner.nextLine();
 
-		Booking bookingToUpdate = null;
-		for (Booking bkng : bookings) {
-			if (bkng.getLearner().getName().equalsIgnoreCase(learnerName) && bkng.getLessonDate().equals(lessonDate)
-					&& bkng.getLessonTime().equals(lessonTime)) {
-				bookingToUpdate = bkng;
-				break;
-			}
-		}
-
-		if (bookingToUpdate != null) {
-			System.out.print("Write a review about the lesson: ");
-			String review = scanner.nextLine();
-			bookingToUpdate.setReview(review);
-
-			System.out.print(
-					"Provide a numerical rating for the coach (1 to 5) (1: Very dissatisfied, 2: Dissatisfied, 3: Ok, 4: Satisfied, 5: Very Satisfied): ");
-			int rating = scanner.nextInt();
-			while (rating < 1 || rating > 5) {
-				System.out.println("Rating must be between 1 and 5. Please try again.");
-				System.out.print("Provide a numerical rating for the coach (1 to 5): ");
-				rating = scanner.nextInt();
-			}
-			bookingToUpdate.setRating(rating);
-			Coach coach = bookingToUpdate.getCoach();
-			coach.addRating(rating);
-			bookingToUpdate.setStatus("attended");
-
-			Learner learner = bookingToUpdate.getLearner();
-			int currentGradeLevel = learner.getGradeLevel();
-			int bookedGradeLevel = bookingToUpdate.getGradeLevel();
-			if (bookedGradeLevel > currentGradeLevel) {
-				learner.setGradeLevel(bookedGradeLevel);
-				System.out.println("Learner's grade level updated to: " + bookedGradeLevel);
+			Booking bookingToUpdate = null;
+			for (Booking bkng : bookings) {
+				if (bkng.getLearner().getName().equalsIgnoreCase(learnerName) && bkng.getLessonDate().equals(lessonDate)
+						&& bkng.getLessonTime().equals(lessonTime)) {
+					bookingToUpdate = bkng;
+					break;
+				}
 			}
 
-			System.out.println("Swimming lesson attended successfully.");
-		} else {
-			System.out.println("Booking not found. Unable to attend lesson.");
+			if (bookingToUpdate != null) {
+				System.out.print("Write a review about the lesson: ");
+				String review = scanner.nextLine();
+				bookingToUpdate.setReview(review);
+
+				System.out.print(
+						"Provide a numerical rating for the coach (1 to 5) (1: Very dissatisfied, 2: Dissatisfied, 3: Ok, 4: Satisfied, 5: Very Satisfied): ");
+				int rating = scanner.nextInt();
+				while (rating < 1 || rating > 5) {
+					System.out.println("Rating must be between 1 and 5. Please try again.");
+					System.out.print("Provide a numerical rating for the coach (1 to 5): ");
+					rating = scanner.nextInt();
+				}
+				bookingToUpdate.setRating(rating);
+				Coach coach = bookingToUpdate.getCoach();
+				coach.addRating(rating);
+				bookingToUpdate.setStatus("attended");
+
+				Learner learner = bookingToUpdate.getLearner();
+				int currentGradeLevel = learner.getGradeLevel();
+				int bookedGradeLevel = bookingToUpdate.getGradeLevel();
+				if (bookedGradeLevel > currentGradeLevel) {
+					learner.setGradeLevel(bookedGradeLevel);
+					System.out.println("Learner's grade level updated to: " + bookedGradeLevel);
+				}
+
+				System.out.println("Swimming lesson attended successfully.");
+			} else {
+				System.out.println("Booking not found. Unable to attend lesson.");
+			}
 		}
 
 	}
 
 	public void changeCancelBooking() {
-		Scanner scanner = new Scanner(System.in);
-		System.out.println("\nChange/Cancel a booking:");
-		System.out.print("Enter learner's name: ");
-		String learnerName = scanner.nextLine();
-		System.out.print("Enter lesson date (YYYY-MM-DD): ");
-		String lessonDate = scanner.nextLine();
-		System.out.print("Enter lesson time (HH:MM): ");
-		String lessonTime = scanner.nextLine();
+		try (Scanner scanner = new Scanner(System.in)) {
+			System.out.println("\nChange/Cancel a booking:");
+			System.out.print("Enter learner's name: ");
+			String learnerName = scanner.nextLine();
+			System.out.print("Enter lesson date (YYYY-MM-DD): ");
+			String lessonDate = scanner.nextLine();
+			System.out.print("Enter lesson time (HH:MM): ");
+			String lessonTime = scanner.nextLine();
 
-		Booking bookingToUpdate = null;
-		for (Booking booking : bookings) {
-			if (booking.getLearner().getName().equalsIgnoreCase(learnerName)
-					&& booking.getLessonDate().equals(lessonDate) && booking.getLessonTime().equals(lessonTime)) {
-				bookingToUpdate = booking;
-				break;
+			Booking bookingToUpdate = null;
+			for (Booking booking : bookings) {
+				if (booking.getLearner().getName().equalsIgnoreCase(learnerName)
+						&& booking.getLessonDate().equals(lessonDate) && booking.getLessonTime().equals(lessonTime)) {
+					bookingToUpdate = booking;
+					break;
+				}
 			}
-		}
 
-		if (bookingToUpdate != null) {
-			System.out.println("Booking found:");
-			System.out.println(bookingToUpdate);
+			if (bookingToUpdate != null) {
+				System.out.println("Booking found:");
+				System.out.println(bookingToUpdate);
 
-			System.out.println("Do you want to change or cancel this booking? (C for Change, X for Cancel)");
-			String choice = scanner.nextLine().trim().toUpperCase();
-			switch (choice) {
-			case "C":
-				System.out.print("Enter new lesson date (YYYY-MM-DD): ");
-				String newLessonDate = scanner.nextLine();
-				System.out.print("Enter new lesson time (HH:MM): ");
-				String newLessonTime = scanner.nextLine();
+				System.out.println("Do you want to change or cancel this booking? (C for Change, X for Cancel)");
+				String choice = scanner.nextLine().trim().toUpperCase();
+				switch (choice) {
+				case "C":
+					System.out.print("Enter new lesson date (YYYY-MM-DD): ");
+					String newLessonDate = scanner.nextLine();
+					System.out.print("Enter new lesson time (HH:MM): ");
+					String newLessonTime = scanner.nextLine();
 
-				bookingToUpdate.setLessonDate(newLessonDate);
-				bookingToUpdate.setLessonTime(newLessonTime);
-				System.out.println("Booking updated successfully.");
-				break;
-			case "X":
-				bookings.remove(bookingToUpdate);
-				System.out.println("Booking cancelled successfully.");
-				break;
-			default:
-				System.out.println("Invalid choice. No changes made.");
+					bookingToUpdate.setLessonDate(newLessonDate);
+					bookingToUpdate.setLessonTime(newLessonTime);
+					System.out.println("Booking updated successfully.");
+					break;
+				case "X":
+					bookings.remove(bookingToUpdate);
+					System.out.println("Booking cancelled successfully.");
+					break;
+				default:
+					System.out.println("Invalid choice. No changes made.");
+				}
+			} else {
+				System.out.println("Booking not found. Unable to change/cancel booking.");
 			}
-		} else {
-			System.out.println("Booking not found. Unable to change/cancel booking.");
 		}
 	}
 
