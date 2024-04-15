@@ -71,19 +71,19 @@ public class SwimmingLessonSystem {
 	}
 
 	public void displayMenu() {
-		System.out.println("\nWelcome to the Swimming Lesson System!");
-		System.out.println("1. Book a swimming lesson");
-		System.out.println("2. Change/Cancel a booking");
-		System.out.println("3. Attend a swimming lesson");
-		System.out.println("4. Monthly learner report");
-		System.out.println("5. Monthly coach report");
-		System.out.println("6. Register a new learner");
-		System.out.println("7. Exit");
-		System.out.println("8. TimeTable");
-		System.out.print("Enter your choice: ");
+		System.out.println("Welcome to the Swimming Lesson System!\n" +
+                "1. Book a swimming lesson\n" +
+                "2. Change/Cancel a booking\n" +
+                "3. Attend a swimming lesson\n" +
+                "4. Monthly learner report\n" +
+                "5. Monthly coach report\n" +
+                "6. Register a new learner\n" +
+                "7. Exit\n" +
+                "8. TimeTable\n" +
+                "Enter your choice:");
 	}
 
-	private void exitProgram() {
+	public void exitProgram() {
 		System.out.println("\nThank you!! \nHave A Great Day!!!");
 		System.exit(0);
 	}
