@@ -301,7 +301,7 @@ public class BookingManager {
 	}
 
 	public void attendLesson() {
-		try (Scanner scanner = new Scanner(System.in)) {
+		Scanner scanner = new Scanner(System.in);
 			System.out.println("\nAttend a swimming lesson:");
 			System.out.print("Enter learner's name: ");
 			String learnerName = scanner.nextLine();
@@ -351,7 +351,7 @@ public class BookingManager {
 			}
 		}
 
-	}
+	
 
 	public void changeCancelBooking() {
 		try (Scanner scanner = new Scanner(System.in)) {

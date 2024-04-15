@@ -25,7 +25,7 @@ public class Booking {
 		this.lessonTime = lessonTime;
 		this.status = "booked"; 
 		this.review = ""; 
-		this.rating = 0; 
+		this.rating = 1; 
 		this.coach = coach;
 		this.gradeLevel = gradeLevel;
 		this.currentCapacity = 1; 

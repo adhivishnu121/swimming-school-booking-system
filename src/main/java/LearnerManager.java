@@ -10,7 +10,7 @@ class LearnerManager {
 	}
 
 	public void registerLearner(List<Learner> learners) {
-		try (Scanner scanner = new Scanner(System.in)) {
+		Scanner scanner = new Scanner(System.in);
 			System.out.println("\nRegister a new learner:");
 			System.out.print("Enter name: ");
 			String name = scanner.nextLine();
@@ -35,12 +35,12 @@ class LearnerManager {
 			}
 			Learner learner = new Learner(name, gender, age, emergencyContact, gradeLevel);
 			learners.add(learner);
-		}
+		
 		System.out.println("Learner registered successfully!");
-	}
-
-	public void monthlyReport(List<Booking> bookings) {
-		try (Scanner scanner = new Scanner(System.in)) {
+}
+		
+		public void monthlyReport(List<Booking> bookings) {
+		Scanner scanner = new Scanner(System.in);
 			System.out.print("Enter month number (e.g., 03 for March): ");
 			int month = scanner.nextInt();
 
@@ -83,9 +83,7 @@ class LearnerManager {
 						totalAttended, bookingsList);
 
 			}
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-		}
+		
 		System.out.println("-----------------------------------------------------------");
 	}
 }
