@@ -29,6 +29,8 @@ public class SwimmingLessonSystem {
 		learners.add(new Learner("lrn8", "Female", 4, "890-123-4567", 3));
 		learners.add(new Learner("lrn9", "Male", 8, "901-234-5678", 2));
 		learners.add(new Learner("lrn10", "Female", 9, "012-345-6789", 4));
+		
+		
 		coaches.add(new Coach("Coach1"));
 		coaches.add(new Coach("Coach2"));
 		coaches.add(new Coach("Coach3"));
@@ -53,7 +55,7 @@ public class SwimmingLessonSystem {
 				learnerManager.monthlyReport(bookings);
 				break;
 			case 5:
-				coachManager.monthlyReport(coaches);
+				coachManager.monthlyReport(bookings);
 				break;
 			case 6:
 				learnerManager.registerLearner(learners);
@@ -71,7 +73,7 @@ public class SwimmingLessonSystem {
 	}
 
 	public void displayMenu() {
-		System.out.println("Welcome to the Swimming Lesson System!\n" +
+		System.out.println("-------------------------------------------------------------------------\n"+"Welcome to the Swimming Lesson System!\n" +
                 "1. Book a swimming lesson\n" +
                 "2. Change/Cancel a booking\n" +
                 "3. Attend a swimming lesson\n" +

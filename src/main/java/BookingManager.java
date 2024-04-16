@@ -24,7 +24,7 @@ public class BookingManager {
         List<Coach> coaches = getSampleCoaches();
         LocalDate currentDate = LocalDate.now();
 
-        for (int i = 0; i < 4; i++) { // Repeat for 4 weeks
+        for (int i = 0; i < 4; i++) { 
             LocalDate nextMonday = currentDate.with(TemporalAdjusters.nextOrSame(DayOfWeek.MONDAY)).plusWeeks(i);
             LocalDate nextWednesday = currentDate.with(TemporalAdjusters.nextOrSame(DayOfWeek.WEDNESDAY)).plusWeeks(i);
             LocalDate nextFriday = currentDate.with(TemporalAdjusters.nextOrSame(DayOfWeek.FRIDAY)).plusWeeks(i);
@@ -67,7 +67,7 @@ public class BookingManager {
 	}
 
 	public void bookLesson(List<Learner> learners, List<Coach> coaches) {
-		try (Scanner scanner = new Scanner(System.in)) {
+		Scanner scanner = new Scanner(System.in);
 			System.out.println("Select the way to view the timetable:");
 			System.out.println("1. View by day");
 			System.out.println("2. View by grade level");
@@ -104,16 +104,15 @@ public class BookingManager {
 			}
 		}
 		
-	}
+	
 
 	public void createBooking(List<Learner> learners, List<Coach> coaches) {
-		try (Scanner scanner = new Scanner(System.in)) {
+		Scanner scanner = new Scanner(System.in);
 			System.out.print("Enter your name: ");
 			String learnerName = scanner.nextLine().trim();
 			System.out.print("Enter your ID: ");
 			int learnerId = scanner.nextInt();
-			scanner.nextLine(); // Consume newline
-
+			scanner.nextLine(); 
 			Learner learner = null;
 			for (Learner l : learners) {
 				
@@ -167,8 +166,7 @@ public class BookingManager {
 			}
 
 			int minGradeLevel = Math.max(learner.getGradeLevel(), 0);
-			int maxGradeLevel = Math.min(learner.getGradeLevel() + 1, 5); // Grade 1 learners can book Grade 1 or Grade 2
-
+			int maxGradeLevel = Math.min(learner.getGradeLevel() + 1, 5); 
 			System.out.print("Enter grade level: ");
 			int gradeLevel = scanner.nextInt();
 			scanner.nextLine();
@@ -178,15 +176,24 @@ public class BookingManager {
 						+ " or Grade " + maxGradeLevel + " lessons.");
 				return;
 			}
+						
 			int lessonId = generateLessonId(); 
 			Booking newBooking = new Booking(learner, lessonDate, lessonTime, coach, gradeLevel, lessonId);
+			for (Booking bkng : bookings) {
+				if (bkng.getLearner().getName().equalsIgnoreCase(learnerName) && bkng.getLessonDate().equals(lessonDate)
+						&& bkng.getLessonTime().equals(lessonTime)) {                
+					System.out.println("Duplicate booking found. Booking unsuccessful.");
+					System.out.println("-------------------------------------------------------------------------");
 
-			bookings.add(newBooking);
-		}
+					return;
+					}}
+			    bookings.add(newBooking);
+	        System.out.println("Booking created successfully.");
+			System.out.println("-------------------------------------------------------------------------");
 
-		System.out.println("Booking created successfully.");
 	}
-
+	
+	
 	private int countBookingsForTimeSlot(String lessonDate, String lessonTime) {
 		int count = 0;
 		for (Booking booking : bookings) {
@@ -354,7 +361,7 @@ public class BookingManager {
 	
 
 	public void changeCancelBooking() {
-		try (Scanner scanner = new Scanner(System.in)) {
+		Scanner scanner = new Scanner(System.in);
 			System.out.println("\nChange/Cancel a booking:");
 			System.out.print("Enter learner's name: ");
 			String learnerName = scanner.nextLine();
@@ -400,7 +407,7 @@ public class BookingManager {
 				System.out.println("Booking not found. Unable to change/cancel booking.");
 			}
 		}
-	}
+	
 
 	public List<Booking> getCurrentBookings() {
 		return bookings;
