@@ -78,4 +78,4 @@ The system enforces strict booking rules and capacity constraints while maintain
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/swimming-school-booking-system.git
+   git clone https://github.com/adhivishnu121/swimming-school-booking-system.git
